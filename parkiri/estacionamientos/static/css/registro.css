@@ -1,0 +1,27 @@
+.fuente-personalizada {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+ 
+}
+  
+.card {
+    width: 600px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+.card label {
+    display: block; 
+    margin-bottom: 45px;
+    margin-top: 8px;
+    text-align: left; 
+   
+}
+
+.label-align {
+    display: block;
+    margin-bottom: 100px; /* Ajusta el valor según tus necesidades */
+  }

@@ -1,0 +1,30 @@
+.fondo{
+    padding: 15px;
+    background-color: rgba(117, 201, 250, 0.926);
+    text-align: center;
+}
+.cabecera{
+    background-color: #FF6961;
+    text-align: center;
+}
+.relleno{
+    background-color:rgba(255, 255, 255, 0.6); 
+    border-radius: 13px;
+    text-align: center;
+    font-size: 30px;
+    padding: 7px;
+}
+
+body{
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-size: cover;
+}
+.tam_logo{
+    width: auto;
+    max-height: 176px;
+    margin: auto;
+}
+.blanco{
+background-color: aliceblue;
+}
