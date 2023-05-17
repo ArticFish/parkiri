@@ -1,0 +1,13 @@
+body {
+    background-color:  rgba(117, 201, 250, 0.926);
+    padding-top: 70px; 
+}
+.cabecera{
+    background-color: #FF6961;
+    text-align: center;
+    height: 80px;
+}
+.centrar{
+    display: flex;
+    justify-content: center;
+}

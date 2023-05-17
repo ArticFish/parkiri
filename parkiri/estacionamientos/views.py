@@ -4,16 +4,23 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 from django.contrib import messages
+from django.core.mail import send_mail
 # Create your views here.
 
 def inicio(request):
     return render(request,'index.html')
+
+def reset_password(request):
+    return render(request,'registration/password_reset.html')
 
 def registrarse(request):
     return render(request,'registrarse.html')
 
 def perfil(request):
     return render(request,'perfil.html')
+
+def recuperarContrasena(request):
+    return render(request,'recuperarContrasena.html')
 
 def prueba(request):
     user = User.objects.all()
@@ -31,9 +38,10 @@ def iniciarsesion(request):
     if user is not None:
         login(request, user)
         messages.success(request,'Usuario autenticado')
+        return render(request,'index.html')
     else:
         messages.success(request,'Usuario o contrasena incorrectos')
-    return render(request,'index.html')
+        return render(request,'prueba.html')
 
 def registro(request):
     nombre = request.POST['registrarUser']
@@ -56,4 +64,19 @@ def ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return HttpResponse("Welcome! You are visiting from: {}".format(ip))
+
+def enviar_correo(request):
+   
+        print("bien")
+        if request.method == 'POST':
+            destinatario = request.POST['destinatario']
+            subject = 'Correo de prueba'
+            message = 'Este es un correo de prueba enviado desde Django.'
+            from_email = 'sergio.onep@gmail.com'
+            to_email = [destinatario]
+            print("bien2")
+            send_mail(subject, message, from_email, to_email, fail_silently=False)
+            print("bien22")
+            return render(request, 'index.html')
+  
 
