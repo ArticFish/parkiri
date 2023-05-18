@@ -3,9 +3,23 @@
     background-color: rgba(117, 201, 250, 0.926);
     text-align: center;
 }
-.cabecera{
-    background-color: #FF6961;
+.fondobg{
+    background-color: rgba(117, 201, 250, 0.926);
     text-align: center;
+}
+body {
+    background-color: #EDF2F4;
+    padding-top: 70px; 
+}
+
+.cabecera{
+    background-color: #D90429 ;
+    text-align: center;
+    height: 80px;
+}
+.centrar{
+    display: flex;
+    justify-content: center;
 }
 .relleno{
     background-color:rgba(255, 255, 255, 0.6); 

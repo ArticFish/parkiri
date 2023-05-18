@@ -4,18 +4,24 @@
     text-align: center;
 }
 
-
+body {
+    background-color: #EDF2F4;
+    padding-top: 70px; 
+}
 
 .cabecera{
-    background-color: #FF6961;
+    background-color: #D90429 ;
     text-align: center;
+    height: 80px;
 }
+
 .relleno{
     background-color:rgba(255, 255, 255, 0.6); 
     border-radius: 13px;
     text-align: center;
     font-size: 30px;
     padding: 7px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 body{
@@ -27,7 +33,4 @@ background-size: cover;
     width: auto;
     max-height: 176px;
     margin: auto;
-}
-.blanco{
-background-color: aliceblue;
 }

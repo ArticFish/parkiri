@@ -1,9 +1,10 @@
 body {
-    background-color:  rgba(117, 201, 250, 0.926);
+    background-color: #EDF2F4;
     padding-top: 70px; 
 }
+
 .cabecera{
-    background-color: #FF6961;
+    background-color: #D90429;
     text-align: center;
     height: 80px;
 }

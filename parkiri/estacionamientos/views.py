@@ -66,17 +66,16 @@ def ip(request):
     return HttpResponse("Welcome! You are visiting from: {}".format(ip))
 
 def enviar_correo(request):
-   
-        print("bien")
-        if request.method == 'POST':
-            destinatario = request.POST['destinatario']
-            subject = 'Correo de prueba'
-            message = 'Este es un correo de prueba enviado desde Django.'
-            from_email = 'sergio.onep@gmail.com'
-            to_email = [destinatario]
-            print("bien2")
-            send_mail(subject, message, from_email, to_email, fail_silently=False)
-            print("bien22")
-            return render(request, 'index.html')
-  
+    print("bien")
+    if request.method == 'POST':
+        destinatario = request.POST['destinatario']
+        subject = 'Correo de prueba'
+        message = 'Este es un correo de prueba enviado desde Django.'
+        from_email = 'sergio.onep@gmail.com'
+        to_email = [destinatario]
+        print("bien2")
+        send_mail(subject, message, from_email, to_email, fail_silently=False)
+        print("bien22")
+        return render(request, 'index.html')
+
 
