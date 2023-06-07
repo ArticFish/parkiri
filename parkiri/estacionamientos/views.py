@@ -1,14 +1,17 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login, logout
-
 from django.contrib import messages
 from django.core.mail import send_mail
+User = get_user_model()
 # Create your views here.
 
 def inicio(request):
     return render(request,'index.html')
+
+def mapa(request):
+    return render(request,'mapa.html')
 
 def reset_password(request):
     return render(request,'registration/password_reset.html')
