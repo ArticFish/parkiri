@@ -15,6 +15,9 @@ body {
     height: 80px;
 }
 
+.centrar{
+    text-align: center;
+}
 .relleno{
     background-color:rgba(255, 255, 255, 0.6); 
     border-radius: 13px;

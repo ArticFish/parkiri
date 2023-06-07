@@ -1,9 +1,11 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.core.mail import send_mail
+
+from .models import estacionamiento, estadoe
 User = get_user_model()
 # Create your views here.
 
@@ -13,6 +15,20 @@ def inicio(request):
 def mapa(request):
     return render(request,'mapa.html')
 
+def aestacionamiento(request):
+    return render(request,'agregar.html')
+
+def editestacionamiento(request):
+    return render(request,'editestacionamiento.html')
+
+def agregarestacionamiento(request):
+    ubi = request.POST['ubicacion']
+    prec = request.POST['precio']
+    fotoe = request.FILES['subir']
+    estacionamiento.objects.create(direccion=ubi,precio=prec,foto=fotoe)
+    print('Funciono correctamente')
+    return redirect('perfil')
+
 def reset_password(request):
     return render(request,'registration/password_reset.html')
 
@@ -20,7 +36,9 @@ def registrarse(request):
     return render(request,'registrarse.html')
 
 def perfil(request):
-    return render(request,'perfil.html')
+    listae=estacionamiento.objects.all()
+    contexto = {'lista':listae}
+    return render(request,'perfil.html',contexto)
 
 def recuperarContrasena(request):
     return render(request,'recuperarContrasena.html')

@@ -33,6 +33,7 @@ class estacionamiento(models.Model):
     estacionamiento = models.AutoField(primary_key=True,verbose_name="ID autoincrementable del estacionamiento")
     direccion = models.CharField(max_length=200, verbose_name="tipo",blank=False,null=False)
     precio = models.IntegerField(verbose_name="Precio estacionamiento")
+    foto = models.ImageField(upload_to="estacionamientos")
     estado = models.ForeignKey(estadoe,on_delete=models.CASCADE,default=1)
 
     def __str__(self):
