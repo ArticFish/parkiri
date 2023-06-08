@@ -146,13 +146,16 @@ def eperfil(request,idu):
     correo = request.POST['registrarCorreo']
     dire = request.POST['registrarDireccion']
     tele = request.POST['registrarTelefono']
-    user.set_password(clave)
+    if clave == '':
+        print('xd')
+    else:
+        user.set_password(clave)
     user.username = nombre
     user.email=correo
     user.direccion= dire
     user.telefono = tele
     user.save()
-    return render('inicio')
+    return redirect('inicio')
 
 def ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
