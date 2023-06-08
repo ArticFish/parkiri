@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="shortcut icon" href="{%static 'img/icono.ico' %}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,27 +34,27 @@
     <div class="row" style="margin-top: 11%;" >
         <div class="col-md-4 " ></div>
         <div class="col-md-4 m-10">
-            <form class="relleno" method="post" name="formulario" id="form1" action="{% url 'agregarestacionamiento' %}" enctype="multipart/form-data">
+            <form class="relleno" method="post" name="formulario" id="form1" action="{% url 'eestacionamiento' listae.estacionamiento %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <fieldset>
                 <div class="row ">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-8">
-                        <h2>Agregar un estacionamiento</h2>
+                        <h2>Editar estacionamiento</h2>
                     </div>
                     <div class="col-sm-2 "></div>
                 </div>
                 <div class="row">
                     <div class="col-md-5"><label class=" fuente-personalizada"><h6>Ubicacion:</h6></label></div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control " id="ubicacion" name="ubicacion" required>
+                        <input type="text" class="form-control " id="ubicacion" name="ubicacion" required value="{{ listae.direccion }}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5"><label class="fuente-personalizada"><h6>Precio:</h6></label></div>
                     <div class="col-md-7">
                         <div class="form-group" style="margin-top: 5px;">
-                        <input type="number" class="form-control" id="precio" name="precio" required>
+                        <input type="number" class="form-control" id="precio" name="precio" required value="{{ listae.precio }}">
                         </div>
                     </div>
                     <div class="col-md-2"></div>
@@ -62,12 +63,12 @@
                     <div class="col-md-5"><label class="fuente-personalizada"><h6>Foto:</h6></label></div>
                     <div class="col-md-7">
                         <div class="form-group" style="margin-top: 5px;">
-                            <input  type="file" class="form-control" id="subir" name="subir" style="visibility: visible;" accept="image/png, image/jpeg, image/jpg" required> 
+                            <input type="file" class="form-control" id="subir" name="subir" style="visibility: visible;" accept="image/png, image/jpeg, image/jpg" required> 
                         </div>
                     </div>
                     <div class="col-md-2"></div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="margin-top: 5px;">Agregar</button>
+                <button type="submit" class="btn btn-primary" style="margin-top: 5px;">Editar</button>
                 {% if messages %}
                 {% for message in messages %}
                     <h6><p id="mensajes">{{ message }}</p></h6>

@@ -2,14 +2,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="shortcut icon" href="{%static 'img/icono.ico' %}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ParKiri</title>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-    <link rel="stylesheet" href="{%static 'css/inicios.css' %}">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'css/perfil.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
         th{
@@ -17,57 +19,75 @@
         }
     </style>
 </head>
-
+<nav class="navbar navbar-default navbar-fixed-top cabecera" >
+    <div class="container-fluid">
+            <div class="col-md-4 "style="margin-left: 0px">
+                <a href="{% url 'inicio' %}"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left-circle-fill " viewBox="0 0 16 16" style="  float:left; color: white;">
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                </svg></a>
+            </div>
+            <div class="col-md-4">
+                <h1 style="font-family: cursive;"><img src="{%static 'img/logo.png' %}"style="height: 50px; margin-top: 0px;"></h1>
+            </div>
+            <div class="col-md-4"></div>
+    </div>
+</nav>
 
 <body class="container-fluid"> 
-    <div class="row">
-        <nav class="navbar navbar-default navbar-fixed-top cabecera" >
-            <div class="container-fluid">
-                    <div class="col-md-4 "style="margin-left: 0px">
-                        <a href="{% url 'inicio' %}"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left-circle-fill " viewBox="0 0 16 16" style="  float:left; color: white;">
-                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
-                        </svg></a>
-                    </div>
-                    <div class="col-md-4">
-                        <h1 style="font-family: cursive;"><img src="{%static 'img/logo.png' %}"style="height: 50px; margin-top: 0px;"></h1>
-                    </div>
-                    <div class="col-md-4"></div>
-            </div>
-        </nav>
-    </div>
-    <div class="row" style="margin-top: 11%;" >
+    <div class="row" style="margin-top: 4%;" >
         <div class="col-md-4 " ></div>
         <div class="col-md-4 m-10 relleno">
-            <form method="post" name="formulario" id="form1">
+            <form method="post" name="formulario" id="form1" action="{% url 'eperfil' user.id %}">
                 {% csrf_token %}
                 <fieldset>
                 <div class="row ">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-8">
-                        <h1>Perfil</h1>
+                        <h1>Perfil {{ user.tipo }}</h1>
                     </div>
                     <div class="col-sm-2 "></div>
                 </div>
                 <div class="row">
                     <div class="col-md-5"><label class=" fuente-personalizada"><h6>Nombre usuario:</h6></label></div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control " id="usuario" name="registrarUser" required value="{{ user.username }}">
+                        <input type="text" class="form-control " id="usuario" name="registrarUser" value="{{ user.username }}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5"><label class="fuente-personalizada"><h6>Email:</h6></label></div>
                     <div class="col-md-7">
                         <div class="form-group" style="margin-top: 5px;">
-                        <input type="email" class="form-control" id="correo" name="registrarCorreo" required value="{{ user.email }}">
+                        <input type="email" class="form-control" id="correo" name="registrarCorreo" value="{{ user.email }}">
                         </div>
                     </div>
                     <div class="col-md-2"></div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-5"><label class="fuente-personalizada"><h6>Direccion:</h6></label></div>
+                    <div class="col-md-7">
+                        <div class="form-group" style="margin-top: 5px;">
+                        <input type="text" class="form-control" id="direccion" name="registrarDireccion" value="{{ user.direccion }}">
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5"><label class="fuente-personalizada"><h6>Telefono:</h6></label></div>
+                    <div class="col-md-7">
+                        <div class="form-group" style="margin-top: 5px;">
+                        <input type="number" class="form-control" id="telefono" name="registrarTelefono" value="{{ user.telefono }}">
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-5"><label class="fuente-personalizada"><h6>Contraseña:</h6></label></div>
                     <div class="col-md-7">
                         <div class="form-group" style="margin-top: 5px;">
-                        <input type="password" class="form-control" id="contra" name="registrarContra" required>
+                        <input type="password" class="form-control" id="contra" name="registrarContra">
                         </div>
                     </div>
                     <div class="col-md-2"></div>
@@ -76,10 +96,12 @@
                     <div class="col-md-5"><label class="fuente-personalizada"><h6>Confirmar contraseña:</h6></label></div>
                     <div class="col-md-7">
                         <div class="form-group" style="margin-top: 5px;">
-                            <input type="password" class="form-control" id="conficontra" required>
+                            <input type="password" class="form-control" id="conficontra">
                         </div>
                     </div>
                 </div>
+                
+
                 <button type="submit" class="btn btn-primary" style="margin-top: 5px;">Guardar cambios</button>
                 {% if messages %}
                 {% for message in messages %}
@@ -89,43 +111,85 @@
                     <h6><p id="mensajes"></p></h6>
                 </fieldset> 
             </form>
-            <h1>Estacionamientos</h1>
-            <div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col"><h6>Precio</h6></th>
-                            <th scope="col"><h6>Ubicacion</h6></th>
-                            <th scope="col"><h6>Estado</h6></th>
-                            <th scope="col"><h6>Foto</h6></th>
-                            <th scope="col"><h6></h6></th>
-                            <th scope="col"><h6></h6></th>
-                        </tr>
-                    </thead>
-                    {% for m in lista%}
-                        <tbody>
+            {% if user.tipo|stringformat:"s" == 'Arrendador' or user.is_superuser%}
+                <h1>Estacionamientos</h1>
+                <div>
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td><h6>$ {{ m.precio }}</h6></td>
-                                <td><h6>{{ m.direccion }} </h6></td>
-                                <td><h6>{{ m.estado }} </h6></td>
-                                <td><h6><img src="{{ m.foto.url }}" alt="" class="img-fluid" width="50px"></h6></td>
-                                <td><h6><button class="btn btn-primary">Editar</button></h6></td>
-                                <td><h6><button class="btn btn-danger">Eliminar</button></h6></td>
+                                <th scope="col"><h6>Precio</h6></th>
+                                <th scope="col"><h6>Ubicacion</h6></th>
+                                <th scope="col"><h6>Estado</h6></th>
+                                <th scope="col"><h6>Foto</h6></th>
+                                <th scope="col"><h6></h6></th>
+                                <th scope="col"><h6></h6></th>
                             </tr>
-                        </tbody>
-                    {% endfor %}
-                </table>
-            </div>
-            {% if user.tipo|stringformat:"s" == 'Arrendador' %}
-                <div class="row ">
-                    <div class="col-sm-4"></div>
-                    <div class="col-sm-4">
-                        <a href="{% url 'aestacionamiento' %}"><button class="btn btn-primary" style="margin-top: 5px;">Agregar estacionamiento</button></a>
-                    </div>
-                    <div class="col-sm-4"></div>
+                        </thead>
+                        {% for m in lista%}
+                            <tbody>
+                                <tr>
+                                    <td><h6>$ {{ m.precio }}</h6></td>
+                                    <td><h6>{{ m.direccion }} </h6></td>
+                                    <td><h6>{{ m.estado }} </h6></td>
+                                    <td><h6><img src="{{ m.foto.url }}" alt="" class="img-fluid" width="50px"></h6></td>
+                                    {% if user.is_superuser and m.estado|stringformat:"s" == 'En espera' %}
+                                        <td><h6><a href="{% url 'aceptare' m.estacionamiento %}"><button class="btn btn-success">Aceptar</button></a></h6></td>
+                                        <td><h6><a href="{% url 'rechazare' m.estacionamiento %}"><button class="btn btn-danger">Rechazar</button></a></h6></td>
+                                    {% endif %}
+                                    {% if user.is_superuser == False %}
+                                        <td><h6><a href="{% url 'editestacionamiento' m.estacionamiento %}"><button class="btn btn-primary">Editar</button></a></h6></td>
+                                    {% endif %}
+                                    {% if m.estado|stringformat:"s" == 'Habilitado' or user.is_superuser and m.estado|stringformat:"s" == 'Habilitado' %}
+                                        <td><h6><a href="{% url 'deshabilitare' m.estacionamiento %}"><button class="btn btn-danger">Deshabilitar</button></a></h6></td>
+                                    {% elif m.estado|stringformat:"s" == 'Deshabilitado' and user.is_superuser == false or  user.is_superuser and m.estado|stringformat:"s" == 'Deshabilitado' %}
+                                        <td><h6><a href="{% url 'habilitare' m.estacionamiento %}"><button class="btn btn-success">Habilitar</button></a></h6></td>
+                                        <td><button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#modal1">Eliminar</button></td>
+                                        <div class="modal fade" id="modal1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Título del modal</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body" >
+                                                        <ul>
+                                                            <hr>
+                                                            <h1>Estas seguro de eliminar?</h1>
+                                                            <hr>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</utton>
+                                                        <button type="button" class="btn btn-danger" ><a class="item" href="{% url 'eliminare' m.estacionamiento %}">Eliminar</a></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </tr>
+                            </tbody>
+                            
+                        {% endfor %}
+                    </table>
                 </div>
+                {% if user.tipo|stringformat:"s" == 'Arrendador' or user.is_superuser == false %}
+                    <div class="row ">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-8">
+                            <a href="{% url 'aestacionamiento' %}"><button class="btn btn-primary" style="margin-top: 5px;"> Agregar estacionamiento</button></a>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                {% endif %}
             {% endif %}
         </div>
         <script src="{%static 'js/validacion.js' %}"></script>
+        <script>
+            document.getElementById("dropdownMenuButton1").addEventListener("click", function() {
+                window.location.href = "{% url 'prueba' %}";
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        
     </div>
 </body>

@@ -3,9 +3,12 @@ $(document).ready(function(){
     let mensajesMostrar = "";
     let entrar = false;
 
-var usuario =$("#usuario").val();
-var contra =$("#contra").val();
-var conficontra =$("#conficontra").val();
+    var usuario =$("#usuario").val();
+    var contra =$("#contra").val();
+    var conficontra =$("#conficontra").val();
+    var telefono =$("#telefono").val();
+    var rut =$("#rut").val();
+
     if(usuario.trim().length<4 || usuario.trim().length >15){
         mensajesMostrar +="El nombre de usuario debe tener entre 4 y 15 caracteres <br>";
         entrar = true;
@@ -16,6 +19,14 @@ var conficontra =$("#conficontra").val();
     }
     if(conficontra!=contra){
         mensajesMostrar +="Las contraseñas no son iguales <br>"
+        entrar = true;
+    }
+    if(telefono.length != 9){
+        mensajesMostrar +="Debe ingresar un numero telefono valido";
+        entrar = true;
+    }
+    if(Fn.validaRut(rut) == false){
+        mensajesMostrar +="Debe ingresar un rut valido sin puntos y con guion";
         entrar = true;
     }
     if(entrar){
@@ -30,7 +41,7 @@ var conficontra =$("#conficontra").val();
     $("#form2").on('submit', function(e){
     let mensajesMostrar = "";
     let entrar = false;
-
+    
     var iniciousuario =$("#iniciousuario").val();
     var iniciocontra =$("#iniciocontra").val();
     if(iniciousuario.length<4 || iniciousuario.length >15){
@@ -50,4 +61,7 @@ var conficontra =$("#conficontra").val();
         $("#mensajes").html(mensajesMostrar);
     }
     });
+
+
+    
 });

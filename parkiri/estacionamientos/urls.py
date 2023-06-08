@@ -14,13 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import inicio,prueba,iniciarsesion,registrarse,cerrarsesion,registro,perfil,recuperarContrasena,enviar_correo,mapa,aestacionamiento,agregarestacionamiento,editestacionamiento
+from .views import inicio,prueba,iniciarsesion,registrarse,editestacionamiento,eperfil,eestacionamiento,deshabilitare,rechazare,aceptare,habilitare,eliminare,cerrarsesion,registro,perfil,recuperarContrasena,enviar_correo,mapa,aestacionamiento,agregarestacionamiento,editestacionamiento
 urlpatterns = [
     path('mapa',mapa,name='mapa'),
     path('prueba',prueba,name='prueba'),
     path('aestacionamiento',aestacionamiento,name='aestacionamiento'),
     path('agregarestacionamiento',agregarestacionamiento,name='agregarestacionamiento'),
-    path('editestacionamiento',editestacionamiento,name='editestacionamiento'),
+    path('editestacionamiento/<int:ide>',editestacionamiento,name='editestacionamiento'),
+    path('eestacionamiento/<int:ide>',eestacionamiento,name='eestacionamiento'),
     path('',inicio,name='inicio'),
     path('iniciarsesion',iniciarsesion,name='iniciarsesion'),
     path('registrarse',registrarse,name='registrarse'),
@@ -29,6 +30,10 @@ urlpatterns = [
     path('perfil',perfil,name='perfil'),
     path('recuperarContrasena',recuperarContrasena,name='recuperarContrasena'),
     path('enviar_correo', enviar_correo, name='enviar_correo'),
-
-
+    path('deshabilitare/<int:ide>',deshabilitare,name='deshabilitare'),
+    path('habilitare/<int:ide>',habilitare,name='habilitare'),
+    path('eliminare/<int:ide>',eliminare,name='eliminare'),
+    path('rechazare/<int:ide>',rechazare,name='rechazare'),
+    path('aceptare/<int:ide>',aceptare,name='aceptare'),
+    path('eperfil/<int:idu>',eperfil,name='eperfil'),
 ]
