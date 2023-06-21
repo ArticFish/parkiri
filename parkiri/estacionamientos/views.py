@@ -5,15 +5,25 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.core.mail import send_mail
 
-from .models import estacionamiento, estadoc, estadoe, tipoc
+from .models import estacionamiento, estadoc,reserva, estadoe, tipoc
 User = get_user_model()
 # Create your views here.
 
 def inicio(request):
-    return render(request,'index.html')
+    listae=estacionamiento.objects.all()
+    contexto = {'lista':listae}
+    return render(request,'index.html',contexto)
+
+def pestacionamiento(request,ide):
+    lesta = estacionamiento.objects.get(estacionamiento=ide)
+    contexto = {"lista":lesta}
+    return render(request,'pestacionamiento.html',contexto)
 
 def mapa(request):
     return render(request,'mapa.html')
+
+def pagoa(request):
+    return render(request,'pago.html')
 
 def aestacionamiento(request):
     return render(request,'agregar.html')
@@ -28,6 +38,7 @@ def eestacionamiento(request,ide):
     prec = request.POST['precio']
     fotoe = request.FILES['subir']
     esta=estacionamiento.objects.get(estacionamiento=ide)
+    print(User)
     esta.direccion = ubi
     esta.precio = prec
     esta.foto = fotoe
@@ -74,11 +85,22 @@ def eliminare(request,ide):
 
 def agregarestacionamiento(request):
     ubi = request.POST['ubicacion']
-    prec = request.POST['precio']
     fotoe = request.FILES['subir']
-    estacionamiento.objects.create(direccion=ubi,precio=prec,foto=fotoe)
+    prec = request.POST['precio']
+    e = estacionamiento.objects.create(direccion=ubi,precio=prec,foto=fotoe)
+    es = estacionamiento.objects.get(estacionamiento=e.estacionamiento)
+    current_user = request.user
+    u = User.objects.get(id=current_user.id)
+    reserva.objects.create(user = u,estacionamiento=es)
     print('Funciono correctamente')
     return redirect('perfil')
+
+def reservar(request,ide):
+    es = estacionamiento.objects.get(estacionamiento=ide)
+    current_user = request.user
+    u = User.objects.get(id=current_user.id)
+    reserva.objects.create(user = u,estacionamiento=es)
+    return redirect('pagoa')
 
 def reset_password(request):
     return render(request,'registration/password_reset.html')
@@ -87,7 +109,10 @@ def registrarse(request):
     return render(request,'registrarse.html')
 
 def perfil(request):
-    listae=estacionamiento.objects.all()
+    current_user = request.user
+    print(current_user.id)
+    u = User.objects.get(id = current_user.id)
+    listae=reserva.objects.filter(user=u)
     contexto = {'lista':listae}
     return render(request,'perfil.html',contexto)
 
@@ -139,8 +164,9 @@ def registro(request):
     print('Funciono correctamente')
     return redirect('prueba')
 
-def eperfil(request,idu):
-    user = User.objects.get(id=idu)
+def eperfil(request):
+    current_user = request.user
+    user = User.objects.get(id=current_user.id)
     nombre = request.POST['registrarUser']
     clave = request.POST['registrarContra']
     correo = request.POST['registrarCorreo']
@@ -179,3 +205,17 @@ def enviar_correo(request):
         return render(request, 'index.html')
 
 
+def eliminarUsuario(request):
+    current_user = request.user
+    user = User.objects.get(username=current_user)
+    user.delete()
+    return redirect('inicio')
+
+def deshabilitarUsuario(request):
+    current_user = request.user
+    user = User.objects.get(username=current_user)
+    user.is_active = 0
+    user.save()
+    print(current_user)
+    
+    return redirect('inforesidente')

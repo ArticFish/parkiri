@@ -1,0 +1,81 @@
+{% extends 'plantillaestacionamiento.html' %}
+{%load static%}
+{% block informacion %}
+<div class="col-md-3">
+    <iframe id="mi-iframe" src="" height="400px" width="400px" frameBorder="0"></iframe>
+</div>
+<div class="col-md-1">
+</div>
+<div class="col-md-1">
+</div>
+<div class="col-md-7">
+    <div class="row">
+        <h2 name="{{ lista.direccion }}" value="{{ lista.direccion }}" id="direccion">{{ lista.direccion }}</h2>
+    </div>
+    <div class="row">
+        <img src="{{ lista.foto.url }}" alt="" class="img-fluid">
+    </div>
+    <div class="row">
+        <h2 id="total" name="{{ lista.precio }}">$ {{ lista.precio }}</h2>
+    </div>
+    <div class="row">
+    </div>
+
+    <div class="row align-items-center">
+    </div>
+    <div class="row" style="margin-top: 5%;">
+        <h5>Descripcion</h5>
+        <hr>
+        <p name="{{ lista.estacionamiento }}" id="ide">{{ lista.descripcion }}</p>
+    </div>
+    <div class="row" style="margin-top: 5%;">
+        <h5>Detalles dueño</h5>
+        <hr>
+        <p>Direccion: {{ lista.direccion }}</p>
+    </div>
+
+</div>
+<script src="{%static 'js/mapa.js' %}"></script>
+{% endblock informacion %}
+
+{% block paypal %}
+<div id="paypal-button-container"></div>
+
+<!-- Include the PayPal JavaScript SDK -->
+<script
+    src="https://www.paypal.com/sdk/js?client-id=AVtWmw0YL4R-rlpwXhSuhuQdLXaCt8_H8bNo7of66wmWZeyl-d0BvQDOA0Mr5CxGwTJIJ2afEhskTW3y&currency=USD">
+    </script>
+
+<script>
+    const div2 = document.getElementById("total");
+    const exampleAttr2 = div2.getAttribute("name");
+    
+    const div3 = document.getElementById("ide");
+    const id = div3.getAttribute("name");
+    var dolar = (exampleAttr2 / 800).toFixed(2);
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+        // Set up the transaction
+        createOrder: function (data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: dolar
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+                // Show a success message to the buyer
+
+
+                window.location.replace("http://127.0.0.1:8000/reservar/"+id);
+
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+{% endblock paypal %}

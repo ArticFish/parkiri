@@ -22,7 +22,7 @@ class estadoe(models.Model):
     nombre = models.CharField(max_length=50, verbose_name="tipo",blank=False,null=False)
 
     def __str__(self):
-        return self.nombre
+        return str(self.estado)
     
 
 class UserProfile(AbstractUser):
@@ -34,10 +34,11 @@ class UserProfile(AbstractUser):
 
 class estacionamiento(models.Model):
     estacionamiento = models.AutoField(primary_key=True,verbose_name="ID autoincrementable del estacionamiento")
-    direccion = models.CharField(max_length=200, verbose_name="tipo",blank=False,null=False)
+    direccion = models.CharField(max_length=200, verbose_name="direccion",blank=False,null=False)
+    descripcion = models.CharField(max_length=500, verbose_name="descripcion",blank=True,null=True)
     precio = models.IntegerField(verbose_name="Precio estacionamiento")
     foto = models.ImageField(upload_to="estacionamientos")
-    estado = models.ForeignKey(estadoe,on_delete=models.CASCADE,default=1)
+    estado = models.ForeignKey(estadoe,on_delete=models.CASCADE,default=4)
 
     def __str__(self):
         return str(self.estacionamiento)
@@ -47,4 +48,4 @@ class reserva(models.Model):
     estacionamiento = models.ForeignKey(estacionamiento,on_delete=models.CASCADE,default=1)
     
     def __str__(self):
-        return self.user
+        return str(self.user)

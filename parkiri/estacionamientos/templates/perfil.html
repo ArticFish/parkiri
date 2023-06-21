@@ -37,7 +37,7 @@
     <div class="row" style="margin-top: 4%;" >
         <div class="col-md-4 " ></div>
         <div class="col-md-4 m-10 relleno">
-            <form method="post" name="formulario" id="form1" action="{% url 'eperfil' user.id %}">
+            <form method="post" name="formulario" id="form1" action="{% url 'eperfil' %}">
                 {% csrf_token %}
                 <fieldset>
                 <div class="row ">
@@ -125,24 +125,24 @@
                                 <th scope="col"><h6></h6></th>
                             </tr>
                         </thead>
-                        {% for m in lista%}
+                        {% for m in lista %}
                             <tbody>
                                 <tr>
-                                    <td><h6>$ {{ m.precio }}</h6></td>
-                                    <td><h6>{{ m.direccion }} </h6></td>
-                                    <td><h6>{{ m.estado }} </h6></td>
-                                    <td><h6><img src="{{ m.foto.url }}" alt="" class="img-fluid" width="50px"></h6></td>
-                                    {% if user.is_superuser and m.estado|stringformat:"s" == 'En espera' %}
-                                        <td><h6><a href="{% url 'aceptare' m.estacionamiento %}"><button class="btn btn-success">Aceptar</button></a></h6></td>
-                                        <td><h6><a href="{% url 'rechazare' m.estacionamiento %}"><button class="btn btn-danger">Rechazar</button></a></h6></td>
+                                    <td><h6>$ {{ m.estacionamiento.precio }}</h6></td>
+                                    <td><h6>{{ m.estacionamiento.direccion }} </h6></td>
+                                    <td><h6>{{ m.estacionamiento.estado }} </h6></td>
+                                    <td><h6><img src="{{ m.estacionamiento.foto.url }}" alt="" class="img-fluid" width="50px"></h6></td>
+                                    {% if user.is_superuser and m.estacionamiento.estado|stringformat:"s" == 'En espera' %}
+                                        <td><h6><a href="{% url 'aceptare' m.estacionamiento.estacionamiento %}"><button class="btn btn-success">Aceptar</button></a></h6></td>
+                                        <td><h6><a href="{% url 'rechazare' m.estacionamiento.estacionamiento %}"><button class="btn btn-danger">Rechazar</button></a></h6></td>
                                     {% endif %}
                                     {% if user.is_superuser == False %}
-                                        <td><h6><a href="{% url 'editestacionamiento' m.estacionamiento %}"><button class="btn btn-primary">Editar</button></a></h6></td>
+                                        <td><h6><a href="{% url 'editestacionamiento' m.estacionamiento.estacionamiento %}"><button class="btn btn-primary">Editar</button></a></h6></td>
                                     {% endif %}
-                                    {% if m.estado|stringformat:"s" == 'Habilitado' or user.is_superuser and m.estado|stringformat:"s" == 'Habilitado' %}
-                                        <td><h6><a href="{% url 'deshabilitare' m.estacionamiento %}"><button class="btn btn-danger">Deshabilitar</button></a></h6></td>
-                                    {% elif m.estado|stringformat:"s" == 'Deshabilitado' and user.is_superuser == false or  user.is_superuser and m.estado|stringformat:"s" == 'Deshabilitado' %}
-                                        <td><h6><a href="{% url 'habilitare' m.estacionamiento %}"><button class="btn btn-success">Habilitar</button></a></h6></td>
+                                    {% if m.estacionamiento.estado|stringformat:"s" == 'Habilitado' or user.is_superuser and m.estacionamiento.estado|stringformat:"s" == 'Habilitado' %}
+                                        <td><h6><a href="{% url 'deshabilitare' m.estacionamiento.estacionamiento %}"><button class="btn btn-danger">Deshabilitar</button></a></h6></td>
+                                    {% elif m.estacionamiento.estado|stringformat:"s" == 'Deshabilitado' and user.is_superuser == false or  user.is_superuser and m.estacionamiento.estado|stringformat:"s" == 'Deshabilitado' %}
+                                        <td><h6><a href="{% url 'habilitare' m.estacionamiento.estacionamiento %}"><button class="btn btn-success">Habilitar</button></a></h6></td>
                                         <td><button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#modal1">Eliminar</button></td>
                                         <div class="modal fade" id="modal1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog">
@@ -160,7 +160,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</utton>
-                                                        <button type="button" class="btn btn-danger" ><a class="item" href="{% url 'eliminare' m.estacionamiento %}">Eliminar</a></button>
+                                                        <button type="button" class="btn btn-danger" ><a class="item" href="{% url 'eliminare' m.estacionamiento.estacionamiento %}">Eliminar</a></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -182,6 +182,12 @@
                     </div>
                 {% endif %}
             {% endif %}
+            
+            <div class="col-md-4">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal1">
+                    Borrar cuenta
+                </button>
+            </div>
         </div>
         <script src="{%static 'js/validacion.js' %}"></script>
         <script>
@@ -192,4 +198,22 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         
     </div>
+    <div class="modal fade" id="modal1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Estas seguro de eliminar?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</utton>
+                    <button type="button" class="btn btn-danger" ><a class="item" href="{% url 'eliminarUsuario' %}">Eliminar</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
 </body>

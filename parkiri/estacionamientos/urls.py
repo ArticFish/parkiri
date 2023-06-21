@@ -14,11 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import inicio,prueba,iniciarsesion,registrarse,editestacionamiento,eperfil,eestacionamiento,deshabilitare,rechazare,aceptare,habilitare,eliminare,cerrarsesion,registro,perfil,recuperarContrasena,enviar_correo,mapa,aestacionamiento,agregarestacionamiento,editestacionamiento
+from .views import inicio,prueba,iniciarsesion,registrarse,editestacionamiento,reservar,pagoa,pestacionamiento,eperfil,eestacionamiento,deshabilitare,rechazare,aceptare,habilitare,eliminare,cerrarsesion,registro,perfil,recuperarContrasena,enviar_correo,mapa,aestacionamiento,agregarestacionamiento,editestacionamiento,eliminarUsuario
 urlpatterns = [
     path('mapa',mapa,name='mapa'),
     path('prueba',prueba,name='prueba'),
+    path('pagoa',pagoa,name='pagoa'),
     path('aestacionamiento',aestacionamiento,name='aestacionamiento'),
+    path('pestacionamiento/<int:ide>',pestacionamiento,name='pestacionamiento'),
+    path('reservar/<int:ide>',reservar,name='reservar'),
     path('agregarestacionamiento',agregarestacionamiento,name='agregarestacionamiento'),
     path('editestacionamiento/<int:ide>',editestacionamiento,name='editestacionamiento'),
     path('eestacionamiento/<int:ide>',eestacionamiento,name='eestacionamiento'),
@@ -35,5 +38,6 @@ urlpatterns = [
     path('eliminare/<int:ide>',eliminare,name='eliminare'),
     path('rechazare/<int:ide>',rechazare,name='rechazare'),
     path('aceptare/<int:ide>',aceptare,name='aceptare'),
-    path('eperfil/<int:idu>',eperfil,name='eperfil'),
+    path('eperfil',eperfil,name='eperfil'),
+    path('eliminarUsuario',eliminarUsuario,name='eliminarUsuario'),
 ]

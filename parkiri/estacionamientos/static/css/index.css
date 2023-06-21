@@ -35,10 +35,14 @@ background-attachment: fixed;
 background-size: cover;
 }
 .tam_logo{
-    width: auto;
-    max-height: 176px;
-    margin: auto;
+    max-width: 200px;
+    max-height: 50px;
+    text-align: center !important;
 }
 .blanco{
 background-color: aliceblue;
+}
+.img-fluid {
+    display: block;
+    margin: auto 0px;
 }
