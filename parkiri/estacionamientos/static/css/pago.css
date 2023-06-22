@@ -1,7 +1,7 @@
 .cabecera{
     background: rgb(238,241,100);
     text-align: center;
-    background: linear-gradient(90deg, rgba(238,241,100,0.989233193277311) 0%, rgba(255,48,104,1) 50%, rgba(255,0,52,1) 100%);
+    background-color: #D90429 ;
 }
 
 .iconos{

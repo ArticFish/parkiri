@@ -4,44 +4,52 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.core.mail import send_mail
-
-from .models import estacionamiento, estadoc,reserva, estadoe, tipoc
+from django.contrib.auth.decorators import user_passes_test
+from .models import UserProfile, estacionamiento, estadoc,reserva, estadoe, tipoc
 User = get_user_model()
 # Create your views here.
-
+@user_passes_test(lambda u: u.is_authenticated,login_url='prueba')
 def inicio(request):
     listae=estacionamiento.objects.all()
     contexto = {'lista':listae}
     return render(request,'index.html',contexto)
 
+@user_passes_test(lambda u: u.is_authenticated,login_url='prueba')
 def pestacionamiento(request,ide):
-    lesta = estacionamiento.objects.get(estacionamiento=ide)
+    lesta = reserva.objects.get(estacionamiento=ide)
     contexto = {"lista":lesta}
     return render(request,'pestacionamiento.html',contexto)
 
+@user_passes_test(lambda u: u.is_authenticated,login_url='prueba')
 def mapa(request):
     return render(request,'mapa.html')
 
+@user_passes_test(lambda u: u.is_authenticated,login_url='prueba')
 def pagoa(request):
     return render(request,'pago.html')
 
+@user_passes_test(lambda u: u.is_authenticated,login_url='prueba')
 def aestacionamiento(request):
     return render(request,'agregar.html')
 
+@user_passes_test(lambda u: u.is_authenticated,login_url='prueba')
 def editestacionamiento(request,ide):
     lista = estacionamiento.objects.get(estacionamiento=ide)
     contexto={"listae":lista}
     return render(request,'editar.html',contexto)
 
+
 def eestacionamiento(request,ide):
     ubi = request.POST['ubicacion']
     prec = request.POST['precio']
     fotoe = request.FILES['subir']
+    desc = request.POST['descripcion']
     esta=estacionamiento.objects.get(estacionamiento=ide)
     print(User)
     esta.direccion = ubi
     esta.precio = prec
     esta.foto = fotoe
+    esta.descripcion = desc
     esta.save()
     print('Funciono correctamente')
     return redirect('perfil')
@@ -87,7 +95,8 @@ def agregarestacionamiento(request):
     ubi = request.POST['ubicacion']
     fotoe = request.FILES['subir']
     prec = request.POST['precio']
-    e = estacionamiento.objects.create(direccion=ubi,precio=prec,foto=fotoe)
+    desc = request.POST['descripcion']
+    e = estacionamiento.objects.create(direccion=ubi,precio=prec,foto=fotoe,descripcion = desc)
     es = estacionamiento.objects.get(estacionamiento=e.estacionamiento)
     current_user = request.user
     u = User.objects.get(id=current_user.id)
@@ -100,6 +109,11 @@ def reservar(request,ide):
     current_user = request.user
     u = User.objects.get(id=current_user.id)
     reserva.objects.create(user = u,estacionamiento=es)
+    re = estadoe.objects.get(nombre='Reservado')
+    tip = estadoe
+    tip.nombre = re
+    es.estado = tip.nombre
+    es.save()
     return redirect('pagoa')
 
 def reset_password(request):
@@ -108,13 +122,21 @@ def reset_password(request):
 def registrarse(request):
     return render(request,'registrarse.html')
 
+@user_passes_test(lambda u: u.is_authenticated,login_url='prueba')
 def perfil(request):
     current_user = request.user
     print(current_user.id)
-    u = User.objects.get(id = current_user.id)
-    listae=reserva.objects.filter(user=u)
-    contexto = {'lista':listae}
-    return render(request,'perfil.html',contexto)
+    if current_user.is_superuser:
+        user = UserProfile.objects.filter(tipo = 2)
+        listae=reserva.objects.filter(user__in=user)
+        print(listae)
+        contexto = {'lista':listae}
+        return render(request,'perfil.html',contexto)
+    else:
+        u = User.objects.get(id = current_user.id)
+        listae=reserva.objects.filter(user=u)
+        contexto = {'lista':listae}
+        return render(request,'perfil.html',contexto)
 
 def recuperarContrasena(request):
     return render(request,'recuperarContrasena.html')
@@ -124,9 +146,10 @@ def prueba(request):
     contexto={"usuario":user}
     return render(request,'prueba.html',contexto)
 
+@user_passes_test(lambda u: u.is_authenticated,login_url='prueba')
 def cerrarsesion(request):
     logout(request)
-    return render(request,'index.html')
+    return redirect('prueba')
 
 def iniciarsesion(request):
     user = request.POST['username']
@@ -158,12 +181,16 @@ def registro(request):
         tip = tipoc
         tip.tipoc = cuenta
         
-    user = User.objects.create_user(nombre, correo, clave,rut=ru,direccion=dire,telefono=tele,tipo=tip.tipoc)
-    user.save()
-    print(cuenta.tipoc)
-    print('Funciono correctamente')
-    return redirect('prueba')
-
+    try:    
+        user = User.objects.create_user(nombre, correo, clave,rut=ru,direccion=dire,telefono=tele,tipo=tip.tipoc)
+        user.save() 
+        print(cuenta.tipoc)
+        print('Funciono correctamente')
+        return redirect('prueba')
+    except:
+        print("ya existe")
+        return redirect('registrarse')
+    
 def eperfil(request):
     current_user = request.user
     user = User.objects.get(id=current_user.id)
@@ -203,6 +230,19 @@ def enviar_correo(request):
         send_mail(subject, message, from_email, to_email, fail_silently=False)
         print("bien22")
         return render(request, 'index.html')
+
+def cancelarreserva(request,ide):
+    current_user = request.user
+    esta = estacionamiento.objects.get(direccion=ide)
+    re = estadoe.objects.get(nombre='Habilitado')
+    tip = estadoe
+    tip.nombre = re
+    esta.estado = tip.nombre
+    esta.save()
+    rese=reserva.objects.get(user=current_user,estacionamiento=esta)
+    rese.delete()
+    return redirect('perfil')
+
 
 
 def eliminarUsuario(request):

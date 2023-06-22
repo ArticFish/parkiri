@@ -1,22 +1,24 @@
 {% extends 'plantillaestacionamiento.html' %}
 {%load static%}
 {% block informacion %}
-<div class="col-md-3">
-    <iframe id="mi-iframe" src="" height="400px" width="400px" frameBorder="0"></iframe>
+<div class="col-md-5">
+    <div class="row">
+        <iframe id="mi-iframe" src="" height="400px" width="400px" frameBorder="0"></iframe>
+    </div>
+    <div class="row" style="margin-top: 100px;">
+        <div id="paypal-button-container"></div>
+    </div>
 </div>
-<div class="col-md-1">
-</div>
-<div class="col-md-1">
-</div>
+
 <div class="col-md-7">
     <div class="row">
-        <h2 name="{{ lista.direccion }}" value="{{ lista.direccion }}" id="direccion">{{ lista.direccion }}</h2>
+        <h2 name="{{ lista.estacionamiento.direccion }}" value="{{ lista.estacionamiento.direccion }}" id="direccion">{{ lista.estacionamiento.direccion }}</h2>
     </div>
     <div class="row">
-        <img src="{{ lista.foto.url }}" alt="" class="img-fluid">
+        <img src="{{ lista.estacionamiento.foto.url }}" alt="" class="img-fluid">
     </div>
     <div class="row">
-        <h2 id="total" name="{{ lista.precio }}">$ {{ lista.precio }}</h2>
+        <h2 id="total" name="{{ lista.estacionamiento.precio }}">$ {{ lista.estacionamiento.precio }}</h2>
     </div>
     <div class="row">
     </div>
@@ -26,12 +28,14 @@
     <div class="row" style="margin-top: 5%;">
         <h5>Descripcion</h5>
         <hr>
-        <p name="{{ lista.estacionamiento }}" id="ide">{{ lista.descripcion }}</p>
+        <p name="{{ lista.estacionamiento.estacionamiento }}" id="ide">{{ lista.estacionamiento.descripcion }}</p>
     </div>
     <div class="row" style="margin-top: 5%;">
         <h5>Detalles dueño</h5>
         <hr>
-        <p>Direccion: {{ lista.direccion }}</p>
+        <p>Nombre: {{ lista.user.username }}</p>
+        <p>Direccion: {{ lista.user.direccion }}</p>
+        <p>Telefono: {{ lista.user.telefono }}</p>
     </div>
 
 </div>
@@ -39,7 +43,7 @@
 {% endblock informacion %}
 
 {% block paypal %}
-<div id="paypal-button-container"></div>
+
 
 <!-- Include the PayPal JavaScript SDK -->
 <script
@@ -78,4 +82,5 @@
         }
     }).render('#paypal-button-container');
 </script>
+
 {% endblock paypal %}

@@ -30,7 +30,7 @@ class UserProfile(AbstractUser):
     rut = models.CharField(max_length=11, verbose_name="rut",blank=True,null=True)
     direccion = models.CharField(max_length=200, verbose_name="direccion",blank=True,null=True)
     telefono = models.IntegerField(verbose_name="telefono",blank=True,null=True)
-    tipo = models.ForeignKey(tipoc,on_delete=models.CASCADE,default=1)
+    tipo = models.ForeignKey(tipoc,on_delete=models.CASCADE,default=3)
 
 class estacionamiento(models.Model):
     estacionamiento = models.AutoField(primary_key=True,verbose_name="ID autoincrementable del estacionamiento")

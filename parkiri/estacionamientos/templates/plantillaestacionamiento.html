@@ -68,7 +68,7 @@
 </header>
 
 <body>
-    <div class="container-sm">
+    <div class="container-sm ">
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10 relleno">
@@ -76,13 +76,22 @@
                     {% block informacion %}
                     {% endblock informacion %}
                 </div>
+                <div class="row">
+                    <div class="col-md-4" style="margin-top: 0%;">
+                        {% block paypal %}
+                        {% endblock paypal%}
+                    </div>
+                    <div class="col-md-4">
+        
+                    
+                    </div>
+                    <div class="col-md-4"></div>
+                    
+                </div>
             </div>
             <div class="col-md-1"></div>
         </div>
-        <div class="row">
-            {% block paypal %}
-            {% endblock paypal%}
-        </div>
+        
     </div>
 </body>
 </html>

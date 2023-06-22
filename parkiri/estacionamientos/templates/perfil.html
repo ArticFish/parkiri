@@ -111,7 +111,7 @@
                     <h6><p id="mensajes"></p></h6>
                 </fieldset> 
             </form>
-            {% if user.tipo|stringformat:"s" == 'Arrendador' or user.is_superuser%}
+            {% if user.tipo|stringformat:"s" == 'Arrendador' or user.is_superuser %}
                 <h1>Estacionamientos</h1>
                 <div>
                     <table class="table">
@@ -126,22 +126,23 @@
                             </tr>
                         </thead>
                         {% for m in lista %}
+                        
                             <tbody>
                                 <tr>
                                     <td><h6>$ {{ m.estacionamiento.precio }}</h6></td>
                                     <td><h6>{{ m.estacionamiento.direccion }} </h6></td>
-                                    <td><h6>{{ m.estacionamiento.estado }} </h6></td>
+                                    <td><h6>{{ m.estacionamiento.estado.nombre }} </h6></td>
                                     <td><h6><img src="{{ m.estacionamiento.foto.url }}" alt="" class="img-fluid" width="50px"></h6></td>
-                                    {% if user.is_superuser and m.estacionamiento.estado|stringformat:"s" == 'En espera' %}
+                                    {% if user.is_superuser and m.estacionamiento.estado.nombre|stringformat:"s" == 'En espera' %}
                                         <td><h6><a href="{% url 'aceptare' m.estacionamiento.estacionamiento %}"><button class="btn btn-success">Aceptar</button></a></h6></td>
                                         <td><h6><a href="{% url 'rechazare' m.estacionamiento.estacionamiento %}"><button class="btn btn-danger">Rechazar</button></a></h6></td>
                                     {% endif %}
-                                    {% if user.is_superuser == False %}
+                                    {% if user.is_superuser == False and m.estacionamiento.estado.nombre|stringformat:"s" != 'Rechazado' %}
                                         <td><h6><a href="{% url 'editestacionamiento' m.estacionamiento.estacionamiento %}"><button class="btn btn-primary">Editar</button></a></h6></td>
                                     {% endif %}
-                                    {% if m.estacionamiento.estado|stringformat:"s" == 'Habilitado' or user.is_superuser and m.estacionamiento.estado|stringformat:"s" == 'Habilitado' %}
+                                    {% if m.estacionamiento.estado.nombre|stringformat:"s" == 'Habilitado' or user.is_superuser and m.estacionamiento.estado.nombre|stringformat:"s" == 'Habilitado' %}
                                         <td><h6><a href="{% url 'deshabilitare' m.estacionamiento.estacionamiento %}"><button class="btn btn-danger">Deshabilitar</button></a></h6></td>
-                                    {% elif m.estacionamiento.estado|stringformat:"s" == 'Deshabilitado' and user.is_superuser == false or  user.is_superuser and m.estacionamiento.estado|stringformat:"s" == 'Deshabilitado' %}
+                                    {% elif m.estacionamiento.estado.nombre|stringformat:"s" == 'Deshabilitado' and user.is_superuser == false or  user.is_superuser and m.estacionamiento.estado.nombre|stringformat:"s" == 'Deshabilitado' %}
                                         <td><h6><a href="{% url 'habilitare' m.estacionamiento.estacionamiento %}"><button class="btn btn-success">Habilitar</button></a></h6></td>
                                         <td><button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#modal1">Eliminar</button></td>
                                         <div class="modal fade" id="modal1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -181,10 +182,53 @@
                         <div class="col-sm-2"></div>
                     </div>
                 {% endif %}
+                {% elif user.tipo|stringformat:"s" == 'Arrendatario' or user.is_superuser == False %}
+                <h1>Estacionamientos</h1>
+                <div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"><h6>Precio</h6></th>
+                                <th scope="col"><h6>Ubicacion</h6></th>
+                                <th scope="col"><h6>Estado</h6></th>
+                                <th scope="col"><h6>Foto</h6></th>
+                                <th scope="col"><h6></h6></th>
+                                <th scope="col"><h6></h6></th>
+                            </tr>
+                        </thead>
+                            {% for m in lista %}
+                            
+                                <tbody>
+                                    <tr>
+                                        <td><h6>$ {{ m.estacionamiento.precio }}</h6></td>
+                                        <td><h6>{{ m.estacionamiento.direccion }} </h6></td>
+                                        <td><h6>{{ m.estacionamiento.estado.nombre }} </h6></td>
+                                        <td><h6><img src="{{ m.estacionamiento.foto.url }}" alt="" class="img-fluid" width="50px"></h6></td>
+                                        <td><button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#modal2">Cancelar reserva</button></td>
+                                        <div class="modal fade" id="modal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Estas seguro de cancelar?</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                   
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No cancelar</utton>
+                                                        <button type="button" class="btn btn-danger" ><a class="item" href="{% url 'cancelarreserva' m.estacionamiento.direccion %}">Cancelar</a></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </tr>
+                                </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
             {% endif %}
             
-            <div class="col-md-4">
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal1">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-danger " style="text-align: center;" data-bs-toggle="modal" data-bs-target="#modal1">
                     Borrar cuenta
                 </button>
             </div>
@@ -214,6 +258,7 @@
         </div>
     </div>
 
+    
 
     
 </body>
